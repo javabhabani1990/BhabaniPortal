@@ -15,7 +15,7 @@
 
 		<a href="getContactDetailsPage">Contactdetails</a>
 		
-		<a href="aboutMeDetails">AboutMe</a>
+		<a href="aboutMeDetailsPage">Viewmyinfo</a>
 	
 	</pre>
 
