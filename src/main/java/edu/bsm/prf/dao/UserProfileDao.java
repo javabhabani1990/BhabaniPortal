@@ -4,7 +4,6 @@ import java.util.List;
 
 import edu.bsm.prf.dto.ContactMeDto;
 import edu.bsm.prf.dto.PortalAdminDto;
-import edu.bsm.prf.request.ContactMeRequest;
 import edu.bsm.prf.request.PortalRequest;
 
 public interface UserProfileDao {

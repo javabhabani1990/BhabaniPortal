@@ -3,11 +3,9 @@ package edu.bsm.prf.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.SetFactoryBean;
 import org.springframework.stereotype.Service;
 
 import edu.bsm.prf.dao.UserProfileDao;
-import edu.bsm.prf.dao.UserProfileDaoImpl;
 import edu.bsm.prf.dto.ContactMeDto;
 import edu.bsm.prf.dto.PortalAdminDto;
 import edu.bsm.prf.request.ContactMeRequest;

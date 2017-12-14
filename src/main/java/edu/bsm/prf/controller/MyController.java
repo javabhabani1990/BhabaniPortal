@@ -1,7 +1,6 @@
 package edu.bsm.prf.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.bsm.prf.request.ContactMeRequest;
 import edu.bsm.prf.request.PortalRequest;
 import edu.bsm.prf.service.UserProfileService;
-import edu.bsm.prf.service.UserProfileServiceImpl;
 
 @RestController
 public class MyController {
