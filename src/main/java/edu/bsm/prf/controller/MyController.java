@@ -1,5 +1,7 @@
 package edu.bsm.prf.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +16,7 @@ import edu.bsm.prf.service.UserProfileService;
 public class MyController {
 
 	@Autowired
-	// @Qualifier("userProfileService")
 	private UserProfileService userProfileService;
-
-	// UserProfileService userProfileService = new UserProfileServiceImpl();
 
 	@RequestMapping("/welcome")
 	public ModelAndView getPage() {
@@ -35,7 +34,6 @@ public class MyController {
 		return new ModelAndView("welcome");
 	}
 
-	// getSignInPage
 	@RequestMapping("/getSignInPage")
 	public ModelAndView getSignInPage() {
 		return new ModelAndView("signIn");
@@ -52,6 +50,17 @@ public class MyController {
 		}
 		page = "error";
 		return new ModelAndView("no");
+	}
+
+	@RequestMapping("/signUpUserPage")
+	public ModelAndView getSignUpUserPage(PortalRequest portalRequest) {
+		return new ModelAndView("signUpUser");
+	}
+
+	@RequestMapping("/performSignUpUser")
+	public ModelAndView performSignUpUser(PortalRequest portalRequest) {
+		int i = userProfileService.performSignUpUser(portalRequest);
+		return new ModelAndView("signIn");
 	}
 
 	@RequestMapping("/getInfoSectionPage")
@@ -77,6 +86,53 @@ public class MyController {
 		modelMap.addAttribute("aboutMeDetailsList",
 				userProfileService.aboutMeDetails());
 		return new ModelAndView("aboutMe");
+	}
+
+	@RequestMapping("/download/*")
+	public String getDownload(HttpServletRequest httpServletRequest) {
+		String s = httpServletRequest.getServletPath();
+		int i = Integer.parseInt(Character.toString(s.charAt(s.length() - 1)));
+		System.out.println(s);
+		System.out.println(i);
+		if (i == 1) {
+			System.out.println("Resume");
+		} else if (i == 2) {
+			System.out.println("Biography");
+		} else if (i == 3) {
+			System.out.println("Photo");
+		} else {
+			System.out.println("None");
+		}
+		return "redirect:aboutMeDetailsPage";
+	}
+
+	// getForgotPasswordPageUser
+	@RequestMapping("/getForgotPasswordPageUser")
+	public ModelAndView sendUrl() {
+		// http://localhost:8080/getForgotPasswordPage/send/request
+		String s = "http://localhost:8080/getForgotPasswordPage/send/request";
+		// MasterMail.send("tech.bhabani@gmail.com",
+		// "Password reset confirmationt", s);
+		return new ModelAndView("welcome");
+	}
+
+	// getForgotPasswordPage-send-request
+	@RequestMapping("/getForgotPasswordPage-send-request")
+	public ModelAndView getForgotPasswordPage() {
+
+		return new ModelAndView("forgotPassword");
+	}
+
+	// performForgotPassword
+	@RequestMapping("/performForgotPassword")
+	public ModelAndView performForgotPassword(PortalRequest portalRequest) {
+		System.out.println("ssss1");
+		int i = userProfileService.performForgotPassword(portalRequest);
+		if(i > 0) {
+			return new ModelAndView("signIn");
+		}else{
+			return new ModelAndView("no");
+		}
 	}
 
 	/*

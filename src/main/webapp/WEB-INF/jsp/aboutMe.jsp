@@ -61,6 +61,18 @@
 
 				<br> <br>
 		</c:forEach>
+		
+		<table>
+			<tr>
+				<td><a href="download/1">Resume</a></td>
+			</tr>
+			<tr>
+				<td><a href="download/2">Biography</a></td>
+			</tr>
+			<tr>
+				<td><a href="download/3">Photo</a></td>
+			</tr>
+		</table>
 
 	</div>
 

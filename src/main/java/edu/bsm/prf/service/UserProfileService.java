@@ -12,11 +12,15 @@ public interface UserProfileService {
 	public boolean saveContactMeInfo(ContactMeRequest request);
 
 	public int baseSignIn(PortalRequest request);
+	
+	public int performSignUpUser(PortalRequest portalRequest);
 
 	public boolean infoSectionForm(PortalRequest request);
 
 	public List<ContactMeDto> viewContactDetails();
 
 	public List<PortalAdminDto> aboutMeDetails();
+
+	public int performForgotPassword(PortalRequest portalRequest);
 
 }

@@ -1,5 +1,7 @@
 package edu.bsm.prf.dto;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,21 +9,21 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "BSM_INFO")
-public class PortalAdminDto {
+@Table(name = "BSM_USER_ACCESS")
+public class UserAccessDto {
 
 	private int id;
 	private String name;
-	private String fatherName;
-	private String motherName;
+	private String dateOfBirth;
+	private String presentAdd;
+	private String permanentAdd;
 	private String gender;
 	private String maritalStatus;
 	private String phoneNum;
-	private String altPhoneNum;
-	private String password;
 	private String emailId;
-	private String altEmailId;
-	private String highestQulf;
+	private String password;
+	private Date createdDate;
+	private String createdTime;
 	private String activeInd;
 
 	@Id
@@ -44,22 +46,31 @@ public class PortalAdminDto {
 		this.name = name;
 	}
 
-	@Column(name = "FATHER_NAME")
-	public String getFatherName() {
-		return fatherName;
+	@Column(name = "DOB")
+	public String getDateOfBirth() {
+		return dateOfBirth;
 	}
 
-	public void setFatherName(String fatherName) {
-		this.fatherName = fatherName;
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
 
-	@Column(name = "MOTHER_NAME")
-	public String getMotherName() {
-		return motherName;
+	@Column(name = "PRESENT_ADD")
+	public String getPresentAdd() {
+		return presentAdd;
 	}
 
-	public void setMotherName(String motherName) {
-		this.motherName = motherName;
+	public void setPresentAdd(String presentAdd) {
+		this.presentAdd = presentAdd;
+	}
+
+	@Column(name = "PERMANENT_ADD")
+	public String getPermanentAdd() {
+		return permanentAdd;
+	}
+
+	public void setPermanentAdd(String permanentAdd) {
+		this.permanentAdd = permanentAdd;
 	}
 
 	@Column(name = "GENDER")
@@ -89,13 +100,13 @@ public class PortalAdminDto {
 		this.phoneNum = phoneNum;
 	}
 
-	@Column(name = "ALT_PHONE_NUM")
-	public String getAltPhoneNum() {
-		return altPhoneNum;
+	@Column(name = "EMAIL_ID")
+	public String getEmailId() {
+		return emailId;
 	}
 
-	public void setAltPhoneNum(String altPhoneNum) {
-		this.altPhoneNum = altPhoneNum;
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
 	}
 
 	@Column(name = "PASSWORD")
@@ -107,31 +118,22 @@ public class PortalAdminDto {
 		this.password = password;
 	}
 
-	@Column(name = "EMAIL_ID")
-	public String getEmailId() {
-		return emailId;
+	@Column(name = "CREATED_DATE")
+	public Date getCreatedDate() {
+		return createdDate;
 	}
 
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
-	@Column(name = "ALT_EMAIL_ID")
-	public String getAltEmailId() {
-		return altEmailId;
+	@Column(name = "CREATED_TIME")
+	public String getCreatedTime() {
+		return createdTime;
 	}
 
-	public void setAltEmailId(String altEmailId) {
-		this.altEmailId = altEmailId;
-	}
-
-	@Column(name = "HIGHEST_QULF")
-	public String getHighestQulf() {
-		return highestQulf;
-	}
-
-	public void setHighestQulf(String highestQulf) {
-		this.highestQulf = highestQulf;
+	public void setCreatedTime(String createdTime) {
+		this.createdTime = createdTime;
 	}
 
 	@Column(name = "ACTIVE_IND")

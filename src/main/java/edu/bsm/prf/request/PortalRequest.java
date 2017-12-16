@@ -1,3 +1,4 @@
+
 package edu.bsm.prf.request;
 
 public class PortalRequest {
@@ -19,6 +20,11 @@ public class PortalRequest {
 	private String altEmailId;
 	private String highestQulf;
 	private String activeInd;
+
+	// signUp user access
+	private String dateOfBirth;
+	private String presentAdd;
+	private String permanentAdd;
 
 	public String getPortalId() {
 		return portalId;
@@ -122,6 +128,30 @@ public class PortalRequest {
 
 	public void setActiveInd(String activeInd) {
 		this.activeInd = activeInd;
+	}
+
+	public String getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public String getPresentAdd() {
+		return presentAdd;
+	}
+
+	public void setPresentAdd(String presentAdd) {
+		this.presentAdd = presentAdd;
+	}
+
+	public String getPermanentAdd() {
+		return permanentAdd;
+	}
+
+	public void setPermanentAdd(String permanentAdd) {
+		this.permanentAdd = permanentAdd;
 	}
 
 }

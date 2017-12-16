@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import edu.bsm.prf.dto.ContactMeDto;
 import edu.bsm.prf.dto.PortalAdminDto;
+import edu.bsm.prf.dto.UserAccessDto;
 import edu.bsm.prf.request.PortalRequest;
 
 @Repository
@@ -78,6 +79,21 @@ public class UserProfileDaoImpl implements UserProfileDao {
 		}
 		return i;
 	}
+	
+	@Override
+	public int performSignUpUser(UserAccessDto requestDto) {
+		Session session = null;
+		Integer i = 0;
+		try{
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			 i = (Integer)session.save(requestDto);
+			 session.getTransaction().commit();
+		}catch(Exception ee) {
+			ee.printStackTrace();
+		}
+		return i;
+	}
 
 	@Override
 	public boolean infoSectionForm(PortalAdminDto requestDto) {
@@ -139,6 +155,30 @@ public class UserProfileDaoImpl implements UserProfileDao {
 		}
 		return aboutMeList;
 	}
+
+	@Override
+	public int performForgotPassword(PortalRequest portalRequest) {
+		Session session = null;
+		int i = 0;
+		try{
+			session = sessionFactory.openSession();
+			String forgot_password_query = "update UserAccessDto set password = ? where phoneNum = ?";
+			Query query = session.createQuery(forgot_password_query);
+			query.setParameter(0, portalRequest.getPassword());
+			query.setParameter(1, portalRequest.getPortalId());
+			i = query.executeUpdate();
+		}catch(Exception ee) {
+			ee.printStackTrace();
+		}
+		finally {
+			if(null != session) {
+				session.close();
+			}
+		}
+		return i;
+	}
+	
+	
 
 	/*
 	 * @Autowired public UserProfileDaoImpl(SessionFactory sessionFactory) {

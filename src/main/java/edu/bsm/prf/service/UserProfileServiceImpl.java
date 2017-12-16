@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 import edu.bsm.prf.dao.UserProfileDao;
 import edu.bsm.prf.dto.ContactMeDto;
 import edu.bsm.prf.dto.PortalAdminDto;
+import edu.bsm.prf.dto.UserAccessDto;
 import edu.bsm.prf.request.ContactMeRequest;
 import edu.bsm.prf.request.PortalRequest;
+import edu.bsm.prf.util.Utility;
 
 @Service
-public class UserProfileServiceImpl implements UserProfileService {
+public class UserProfileServiceImpl extends Utility implements UserProfileService {
 
 	// UserProfileDao userProfileDao = new UserProfileDaoImpl();
 
@@ -53,6 +55,24 @@ public class UserProfileServiceImpl implements UserProfileService {
 		// requestDto.setPassword(request.getPassword());
 		return userProfileDao.baseSignIn(request);
 	}
+	
+	@Override
+	public int performSignUpUser(PortalRequest portalRequest) {
+		UserAccessDto requestDto = new UserAccessDto();
+		requestDto.setName(portalRequest.getName());
+		requestDto.setDateOfBirth(portalRequest.getDateOfBirth());
+		requestDto.setPresentAdd(portalRequest.getPresentAdd());
+		requestDto.setPermanentAdd(portalRequest.getPermanentAdd());
+		requestDto.setGender(portalRequest.getGender());
+		requestDto.setMaritalStatus(portalRequest.getMaritalStatus());
+		requestDto.setPhoneNum(portalRequest.getPhoneNum());
+		requestDto.setEmailId(portalRequest.getEmailId());
+		requestDto.setPassword(portalRequest.getPassword());
+		requestDto.setCreatedDate(getCurrentDate());
+		requestDto.setCreatedTime(getCurrentTime());
+		requestDto.setActiveInd("A");
+		return userProfileDao.performSignUpUser(requestDto);
+	}
 
 	@Override
 	public boolean infoSectionForm(PortalRequest request) {
@@ -68,6 +88,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 		requestDto.setEmailId(request.getEmailId());
 		requestDto.setAltEmailId(request.getAltEmailId());
 		requestDto.setHighestQulf(request.getHighestQulf());
+		requestDto.setActiveInd("A");
 		return userProfileDao.infoSectionForm(requestDto);
 	}
 
@@ -79,6 +100,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Override
 	public List<PortalAdminDto> aboutMeDetails() {
 		return userProfileDao.aboutMeDetails();
+	}
+
+	@Override
+	public int performForgotPassword(PortalRequest portalRequest) {
+		return userProfileDao.performForgotPassword(portalRequest);
 	}
 
 }
