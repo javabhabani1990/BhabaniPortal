@@ -11,7 +11,9 @@ public interface UserProfileDao {
 
 	public boolean saveContactMeInfo(ContactMeDto requestDto);
 
-	public int baseSignIn(PortalRequest request);
+	public int baseAdminSignIn(PortalRequest request);
+	
+	public int baseUserSignIn(PortalRequest request);
 	
 	public int performSignUpUser(UserAccessDto requestDto);
 

@@ -1,5 +1,7 @@
 package edu.bsm.prf.dto;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,6 +24,9 @@ public class PortalAdminDto {
 	private String emailId;
 	private String altEmailId;
 	private String highestQulf;
+	private String createdType;
+	private Date createdDate;
+	private String createdTime;
 	private String activeInd;
 
 	@Id
@@ -132,6 +137,33 @@ public class PortalAdminDto {
 
 	public void setHighestQulf(String highestQulf) {
 		this.highestQulf = highestQulf;
+	}
+
+	@Column(name = "CREATED_TYPE")
+	public String getCreatedType() {
+		return createdType;
+	}
+
+	public void setCreatedType(String createdType) {
+		this.createdType = createdType;
+	}
+
+	@Column(name = "CREATED_DATE")
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	@Column(name = "CREATED_TIME")
+	public String getCreatedTime() {
+		return createdTime;
+	}
+
+	public void setCreatedTime(String createdTime) {
+		this.createdTime = createdTime;
 	}
 
 	@Column(name = "ACTIVE_IND")

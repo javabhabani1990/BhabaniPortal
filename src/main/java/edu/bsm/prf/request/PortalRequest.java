@@ -1,4 +1,3 @@
-
 package edu.bsm.prf.request;
 
 public class PortalRequest {
@@ -15,6 +14,7 @@ public class PortalRequest {
 	private String maritalStatus;
 	private String phoneNum;
 	private String altPhoneNum;
+	private String createdType;
 	// private String password;
 	private String emailId;
 	private String altEmailId;
@@ -96,6 +96,14 @@ public class PortalRequest {
 
 	public void setAltPhoneNum(String altPhoneNum) {
 		this.altPhoneNum = altPhoneNum;
+	}
+
+	public String getCreatedType() {
+		return createdType;
+	}
+
+	public void setCreatedType(String createdType) {
+		this.createdType = createdType;
 	}
 
 	public String getEmailId() {

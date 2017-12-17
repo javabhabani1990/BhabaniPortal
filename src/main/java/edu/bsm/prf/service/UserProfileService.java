@@ -11,7 +11,7 @@ public interface UserProfileService {
 
 	public boolean saveContactMeInfo(ContactMeRequest request);
 
-	public int baseSignIn(PortalRequest request);
+	public String baseSignIn(PortalRequest request);
 	
 	public int performSignUpUser(PortalRequest portalRequest);
 

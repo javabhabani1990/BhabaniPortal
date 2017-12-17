@@ -23,49 +23,28 @@ public class MyController {
 		return new ModelAndView("welcome");
 	}
 
-	@RequestMapping("/getContactMePage")
-	public ModelAndView getContactMePage() {
-		return new ModelAndView("contactMe");
-	}
-
 	@RequestMapping("/contactMeForm")
 	public ModelAndView saveContactMeInfo(ContactMeRequest request) {
 		userProfileService.saveContactMeInfo(request);
 		return new ModelAndView("welcome");
 	}
 
-	@RequestMapping("/getSignInPage")
-	public ModelAndView getSignInPage() {
-		return new ModelAndView("signIn");
-	}
-
 	@RequestMapping("/baseSignIn")
 	public ModelAndView baseSignIn(PortalRequest request) {
-		String page = "";
-		int i = userProfileService.baseSignIn(request);
-		System.out.println(i);
-		if (i > 0) {
-			page = "adminHome";
+		String s = userProfileService.baseSignIn(request);
+		if (("ADMIN").equalsIgnoreCase(s)) {
 			return new ModelAndView("adminHome");
+		} else if (("USER").equalsIgnoreCase(s)) {
+			return new ModelAndView("welcome");
+		} else {
+			return new ModelAndView("no");
 		}
-		page = "error";
-		return new ModelAndView("no");
-	}
-
-	@RequestMapping("/signUpUserPage")
-	public ModelAndView getSignUpUserPage(PortalRequest portalRequest) {
-		return new ModelAndView("signUpUser");
 	}
 
 	@RequestMapping("/performSignUpUser")
 	public ModelAndView performSignUpUser(PortalRequest portalRequest) {
 		int i = userProfileService.performSignUpUser(portalRequest);
-		return new ModelAndView("signIn");
-	}
-
-	@RequestMapping("/getInfoSectionPage")
-	public ModelAndView getInfoSectionPage() {
-		return new ModelAndView("infoSection");
+		return new ModelAndView("welcome");
 	}
 
 	@RequestMapping("/infoSectionForm")
@@ -88,9 +67,10 @@ public class MyController {
 		return new ModelAndView("aboutMe");
 	}
 
-	@RequestMapping("/download/*")
-	public String getDownload(HttpServletRequest httpServletRequest) {
+	@RequestMapping("/download{id}")
+	public String getDownload(HttpServletRequest httpServletRequest, String id) {
 		String s = httpServletRequest.getServletPath();
+		System.out.println("id : " + id);
 		int i = Integer.parseInt(Character.toString(s.charAt(s.length() - 1)));
 		System.out.println(s);
 		System.out.println(i);
@@ -128,15 +108,11 @@ public class MyController {
 	public ModelAndView performForgotPassword(PortalRequest portalRequest) {
 		System.out.println("ssss1");
 		int i = userProfileService.performForgotPassword(portalRequest);
-		if(i > 0) {
+		if (i > 0) {
 			return new ModelAndView("signIn");
-		}else{
+		} else {
 			return new ModelAndView("no");
 		}
 	}
-
-	/*
-	 * @RequestMapping("/getStrings") public String getString() { return "hi"; }
-	 */
 
 }

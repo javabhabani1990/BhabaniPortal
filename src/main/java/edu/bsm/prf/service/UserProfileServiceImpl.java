@@ -14,9 +14,8 @@ import edu.bsm.prf.request.PortalRequest;
 import edu.bsm.prf.util.Utility;
 
 @Service
-public class UserProfileServiceImpl extends Utility implements UserProfileService {
-
-	// UserProfileDao userProfileDao = new UserProfileDaoImpl();
+public class UserProfileServiceImpl extends Utility implements
+		UserProfileService {
 
 	@Autowired
 	private UserProfileDao userProfileDao;
@@ -27,9 +26,7 @@ public class UserProfileServiceImpl extends Utility implements UserProfileServic
 
 	@Override
 	public boolean saveContactMeInfo(ContactMeRequest request) {
-		System.out.println("1");
 		ContactMeDto requestDto = new ContactMeDto();
-		System.out.println("s1 : " + requestDto.toString());
 		requestDto.setFullName(request.getFullName());
 		requestDto.setOrganisationName(request.getOrganisationName());
 		requestDto.setCurrentCity(request.getCurrentCity());
@@ -42,20 +39,26 @@ public class UserProfileServiceImpl extends Utility implements UserProfileServic
 		requestDto.setGender(request.getGender());
 		requestDto.setConcernType(request.getConcernType());
 		requestDto.setConcernDetails(request.getConcernDetails());
-		System.out.println("s2 : " + requestDto.toString());
-		System.out.println("userProfileDao : " + userProfileDao);
-		System.out.println("2");
 		return userProfileDao.saveContactMeInfo(requestDto);
 	}
 
 	@Override
-	public int baseSignIn(PortalRequest request) {
-		// PortalAdminDto requestDto = new PortalAdminDto();
-		// requestDto.setPhoneNum(request.getPortalId());
-		// requestDto.setPassword(request.getPassword());
-		return userProfileDao.baseSignIn(request);
+	public String baseSignIn(PortalRequest request) {
+		String s = request.getPortalId();
+		String returnString = null;
+		if ((s.length() > 3) && ("BSM").equalsIgnoreCase(s.substring(0, 3))) {
+			int i = userProfileDao.baseAdminSignIn(request);
+			if (i > 0) {
+				returnString = "ADMIN";
+			}
+		}
+		int j = userProfileDao.baseUserSignIn(request);
+		if (j > 0) {
+			returnString = "USER";
+		}
+		return returnString;
 	}
-	
+
 	@Override
 	public int performSignUpUser(PortalRequest portalRequest) {
 		UserAccessDto requestDto = new UserAccessDto();
@@ -68,6 +71,7 @@ public class UserProfileServiceImpl extends Utility implements UserProfileServic
 		requestDto.setPhoneNum(portalRequest.getPhoneNum());
 		requestDto.setEmailId(portalRequest.getEmailId());
 		requestDto.setPassword(portalRequest.getPassword());
+		requestDto.setCreatedType("USER");
 		requestDto.setCreatedDate(getCurrentDate());
 		requestDto.setCreatedTime(getCurrentTime());
 		requestDto.setActiveInd("A");
@@ -88,6 +92,9 @@ public class UserProfileServiceImpl extends Utility implements UserProfileServic
 		requestDto.setEmailId(request.getEmailId());
 		requestDto.setAltEmailId(request.getAltEmailId());
 		requestDto.setHighestQulf(request.getHighestQulf());
+		requestDto.setCreatedType(request.getCreatedType());
+		requestDto.setCreatedDate(getCurrentDate());
+		requestDto.setCreatedTime(getCurrentTime());
 		requestDto.setActiveInd("A");
 		return userProfileDao.infoSectionForm(requestDto);
 	}

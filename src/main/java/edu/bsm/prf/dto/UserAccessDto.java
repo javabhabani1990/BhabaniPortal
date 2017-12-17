@@ -22,6 +22,7 @@ public class UserAccessDto {
 	private String phoneNum;
 	private String emailId;
 	private String password;
+	private String createdType;
 	private Date createdDate;
 	private String createdTime;
 	private String activeInd;
@@ -116,6 +117,15 @@ public class UserAccessDto {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	@Column(name = "CREATED_TYPE")
+	public String getCreatedType() {
+		return createdType;
+	}
+
+	public void setCreatedType(String createdType) {
+		this.createdType = createdType;
 	}
 
 	@Column(name = "CREATED_DATE")

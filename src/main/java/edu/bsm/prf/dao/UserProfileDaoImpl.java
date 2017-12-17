@@ -54,22 +54,24 @@ public class UserProfileDaoImpl implements UserProfileDao {
 	}
 
 	@Override
-	public int baseSignIn(PortalRequest request) {
+	public int baseAdminSignIn(PortalRequest request) {
 		String signIn_query = "FROM PortalAdminDto AS B WHERE B.phoneNum=? AND B.password=? AND B.activeInd=?";
 		int i = 0;
+		List list = null;
 		Session session = null;
 		try {
-			session = sessionFactory.openSession();
-			Query query = session.createQuery(signIn_query);
-			query.setParameter(0, request.getPortalId());
-			query.setParameter(1, request.getPassword());
-			query.setParameter(2, "Y");
-			List list = query.list();
+			if (null != request) {
+				session = sessionFactory.openSession();
+				Query query = session.createQuery(signIn_query);
+				query.setParameter(0, request.getPortalId());
+				query.setParameter(1, request.getPassword());
+				query.setParameter(2, "A");
+				list = query.list();
+			}
 			System.out.println("D : " + list.size());
 			if ((null != list) && (list.size() > 0)) {
 				i += list.size();
 			}
-			// return i;
 		} catch (Exception ee) {
 			ee.printStackTrace();
 		} finally {
@@ -79,17 +81,43 @@ public class UserProfileDaoImpl implements UserProfileDao {
 		}
 		return i;
 	}
-	
+
+	@Override
+	public int baseUserSignIn(PortalRequest request) {
+		String signIn_query = "FROM UserAccessDto AS U WHERE U.phoneNum=? AND U.password=? AND U.activeInd=?";
+		int i = 0;
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			Query query = session.createQuery(signIn_query);
+			query.setParameter(0, request.getPortalId());
+			query.setParameter(1, request.getPassword());
+			query.setParameter(2, "A");
+			List list = query.list();
+			System.out.println("D : " + list.size());
+			if ((null != list) && (list.size() > 0)) {
+				i += list.size();
+			}
+		} catch (Exception ee) {
+			ee.printStackTrace();
+		} finally {
+			if (null == session) {
+				session.close();
+			}
+		}
+		return i;
+	}
+
 	@Override
 	public int performSignUpUser(UserAccessDto requestDto) {
 		Session session = null;
 		Integer i = 0;
-		try{
+		try {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
-			 i = (Integer)session.save(requestDto);
-			 session.getTransaction().commit();
-		}catch(Exception ee) {
+			i = (Integer) session.save(requestDto);
+			session.getTransaction().commit();
+		} catch (Exception ee) {
 			ee.printStackTrace();
 		}
 		return i;
@@ -98,12 +126,15 @@ public class UserProfileDaoImpl implements UserProfileDao {
 	@Override
 	public boolean infoSectionForm(PortalAdminDto requestDto) {
 		boolean flag = false;
+		Integer id = 0;
 		Session session = null;
 		try {
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-			Integer id = (Integer) session.save(requestDto);
-			session.getTransaction().commit();
+			if (null != requestDto) {
+				session = sessionFactory.openSession();
+				session.beginTransaction();
+				id = (Integer) session.save(requestDto);
+				session.getTransaction().commit();
+			}
 			if (id > 0) {
 				flag = true;
 			}
@@ -126,7 +157,6 @@ public class UserProfileDaoImpl implements UserProfileDao {
 			String contactInfo_query = "from ContactMeDto";
 			Query query = session.createQuery(contactInfo_query);
 			contactMeDtoList = query.list();
-			// return contactMeDtoList;
 		} catch (Exception ee) {
 			ee.printStackTrace();
 		} finally {
@@ -160,52 +190,21 @@ public class UserProfileDaoImpl implements UserProfileDao {
 	public int performForgotPassword(PortalRequest portalRequest) {
 		Session session = null;
 		int i = 0;
-		try{
+		try {
 			session = sessionFactory.openSession();
 			String forgot_password_query = "update UserAccessDto set password = ? where phoneNum = ?";
 			Query query = session.createQuery(forgot_password_query);
 			query.setParameter(0, portalRequest.getPassword());
 			query.setParameter(1, portalRequest.getPortalId());
 			i = query.executeUpdate();
-		}catch(Exception ee) {
+		} catch (Exception ee) {
 			ee.printStackTrace();
-		}
-		finally {
-			if(null != session) {
+		} finally {
+			if (null != session) {
 				session.close();
 			}
 		}
 		return i;
 	}
-	
-	
-
-	/*
-	 * @Autowired public UserProfileDaoImpl(SessionFactory sessionFactory) {
-	 * this.sessionFactory = sessionFactory; }
-	 */
-
-	/*
-	 * @Override public boolean saveContactMeInfo(ContactMeRequest request) {
-	 * System.out.println("sf : " + sessionFactory); System.out.println("sf : "
-	 * + sessionFactory); System.out.println("ct d " +
-	 * request.getConcernType()); System.out.println("cd d " +
-	 * request.getConcernDetails()); ContactMeDto cmDto = new ContactMeDto();
-	 * cmDto.setFullName(request.getFullName());
-	 * cmDto.setOrganisationName(request.getOrganisationName());
-	 * cmDto.setCurrentCity(request.getCurrentCity());
-	 * cmDto.setCurrentState(request.getCurrentState());
-	 * cmDto.setCurrentCountry(request.getCurrentCountry());
-	 * cmDto.setPhoneNum(request.getPhoneNum());
-	 * cmDto.setEmailId(request.getEmailId());
-	 * cmDto.setOfficeEmailId(request.getOfficeEmailId());
-	 * cmDto.setDob(request.getDob()); cmDto.setGender(request.getGender());
-	 * cmDto.setConcernType(request.getConcernType());
-	 * cmDto.setConcernDetails(request.getConcernDetails());
-	 * System.out.println("ct dd " + cmDto.getConcernType());
-	 * System.out.println("cd dd " + cmDto.getConcernDetails());
-	 * sessionFactory.openSession().saveOrUpdate(cmDto);
-	 * //session.saveOrUpdate(cmDto); return true; }
-	 */
 
 }
