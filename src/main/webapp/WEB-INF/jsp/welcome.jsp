@@ -70,7 +70,7 @@
 					data-target="#contactMeModal">Contactme</button>
 			</td>
 			<td><b>|</b></td>
-			<td><a href="getFeaturedByPage" style="text-decoration: none">Featuredby</a>
+			<td><a href="getFeaturedByPage" style="text-decoration: none">Portfolio</a>
 			</td>
 			<td><b>|</b></td>
 			<td><a href="aboutMeDetailsPage" style="text-decoration: none">Aboutme</a>

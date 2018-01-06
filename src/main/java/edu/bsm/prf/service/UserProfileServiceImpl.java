@@ -11,10 +11,11 @@ import edu.bsm.prf.dto.PortalAdminDto;
 import edu.bsm.prf.dto.UserAccessDto;
 import edu.bsm.prf.request.ContactMeRequest;
 import edu.bsm.prf.request.PortalRequest;
+import edu.bsm.prf.util.BusinessValidation;
 import edu.bsm.prf.util.Utility;
 
 @Service
-public class UserProfileServiceImpl extends Utility implements
+public class UserProfileServiceImpl extends BusinessValidation implements
 		UserProfileService {
 
 	@Autowired
@@ -44,19 +45,19 @@ public class UserProfileServiceImpl extends Utility implements
 
 	@Override
 	public String baseSignIn(PortalRequest request) {
-		String s = request.getPortalId();
-		String returnString = null;
-		if ((s.length() > 3) && ("BSM").equalsIgnoreCase(s.substring(0, 3))) {
+		String id = request.getPortalId();
+		String returnStatus = null;
+		if (!isEmpty(id) && isAdminId(id)) {
 			int i = userProfileDao.baseAdminSignIn(request);
 			if (i > 0) {
-				returnString = "ADMIN";
+				returnStatus = "ADMIN";
 			}
 		}
 		int j = userProfileDao.baseUserSignIn(request);
 		if (j > 0) {
-			returnString = "USER";
+			returnStatus = "USER";
 		}
-		return returnString;
+		return returnStatus;
 	}
 
 	@Override
@@ -72,8 +73,8 @@ public class UserProfileServiceImpl extends Utility implements
 		requestDto.setEmailId(portalRequest.getEmailId());
 		requestDto.setPassword(portalRequest.getPassword());
 		requestDto.setCreatedType("USER");
-		requestDto.setCreatedDate(getCurrentDate());
-		requestDto.setCreatedTime(getCurrentTime());
+		requestDto.setCreatedDate(Utility.getCurrentDate());
+		requestDto.setCreatedTime(Utility.getCurrentTime());
 		requestDto.setActiveInd("A");
 		return userProfileDao.performSignUpUser(requestDto);
 	}
@@ -93,9 +94,10 @@ public class UserProfileServiceImpl extends Utility implements
 		requestDto.setAltEmailId(request.getAltEmailId());
 		requestDto.setHighestQulf(request.getHighestQulf());
 		requestDto.setCreatedType(request.getCreatedType());
-		requestDto.setCreatedDate(getCurrentDate());
-		requestDto.setCreatedTime(getCurrentTime());
+		requestDto.setCreatedDate(Utility.getCurrentDate());
+		requestDto.setCreatedTime(Utility.getCurrentTime());
 		requestDto.setActiveInd("A");
+
 		return userProfileDao.infoSectionForm(requestDto);
 	}
 

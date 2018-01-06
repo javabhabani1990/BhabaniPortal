@@ -4,53 +4,51 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import edu.bsm.prf.dto.ContactMeDto;
 import edu.bsm.prf.dto.PortalAdminDto;
 import edu.bsm.prf.dto.UserAccessDto;
 import edu.bsm.prf.request.PortalRequest;
+import edu.bsm.prf.util.ConfigurationUtility;
 
 @Repository
 // @Transactional
-public class UserProfileDaoImpl implements UserProfileDao {
+public class UserProfileDaoImpl extends ConfigurationUtility implements
+		UserProfileDao {
 
-	@Autowired
-	private SessionFactory sessionFactory;
-
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
+	/*
+	 * @Autowired private SessionFactory sessionFactory;
+	 * 
+	 * public void setSessionFactory(SessionFactory sessionFactory) {
+	 * this.sessionFactory = sessionFactory; }
+	 */
 
 	@Override
 	public boolean saveContactMeInfo(ContactMeDto requestDto) {
-		System.out.println("3");
 		Session session = null;
 		Integer id = 0;
+		boolean flag = true;
 		try {
 			System.out.println("4");
-			session = sessionFactory.openSession();
-			System.out.println("5");
+			// session = sessionFactory.openSession();
+			session = getSession(true);
 			session.beginTransaction();
 			id = (Integer) session.save(requestDto);
-			System.out.println("saveContactMeInfo : id : " + id);
-			System.out.println("6");
 			session.getTransaction().commit();
-			System.out.println("7");
 		} catch (Exception ee) {
 			ee.printStackTrace();
 		} finally {
-			if (null != session) {
-				session.close();
-			}
+			/*
+			 * if (null != session) { session.close(); }
+			 */
+			closeSession(session);
 		}
 		// go to try block use flag
 		if (id <= 0) {
-			return false;
+			flag = false;
 		}
-		return true;
+		return flag;
 	}
 
 	@Override
@@ -61,23 +59,24 @@ public class UserProfileDaoImpl implements UserProfileDao {
 		Session session = null;
 		try {
 			if (null != request) {
-				session = sessionFactory.openSession();
+				// session = sessionFactory.openSession();
+				session = getSession(false);
 				Query query = session.createQuery(signIn_query);
 				query.setParameter(0, request.getPortalId());
 				query.setParameter(1, request.getPassword());
 				query.setParameter(2, "A");
 				list = query.list();
 			}
-			System.out.println("D : " + list.size());
 			if ((null != list) && (list.size() > 0)) {
 				i += list.size();
 			}
 		} catch (Exception ee) {
 			ee.printStackTrace();
 		} finally {
-			if (null == session) {
-				session.close();
-			}
+			/*
+			 * if (null == session) { session.close(); }
+			 */
+			closeSession(session);
 		}
 		return i;
 	}
@@ -88,22 +87,23 @@ public class UserProfileDaoImpl implements UserProfileDao {
 		int i = 0;
 		Session session = null;
 		try {
-			session = sessionFactory.openSession();
+			// session = sessionFactory.openSession();
+			session = getSession(false);
 			Query query = session.createQuery(signIn_query);
 			query.setParameter(0, request.getPortalId());
 			query.setParameter(1, request.getPassword());
 			query.setParameter(2, "A");
 			List list = query.list();
-			System.out.println("D : " + list.size());
 			if ((null != list) && (list.size() > 0)) {
 				i += list.size();
 			}
 		} catch (Exception ee) {
 			ee.printStackTrace();
 		} finally {
-			if (null == session) {
-				session.close();
-			}
+			/*
+			 * if (null == session) { session.close(); }
+			 */
+			closeSession(session);
 		}
 		return i;
 	}
@@ -113,12 +113,15 @@ public class UserProfileDaoImpl implements UserProfileDao {
 		Session session = null;
 		Integer i = 0;
 		try {
-			session = sessionFactory.openSession();
+			// session = sessionFactory.openSession();
+			session = getSession(true);
 			session.beginTransaction();
 			i = (Integer) session.save(requestDto);
 			session.getTransaction().commit();
 		} catch (Exception ee) {
 			ee.printStackTrace();
+		} finally {
+			closeSession(session);
 		}
 		return i;
 	}
@@ -130,7 +133,8 @@ public class UserProfileDaoImpl implements UserProfileDao {
 		Session session = null;
 		try {
 			if (null != requestDto) {
-				session = sessionFactory.openSession();
+				// session = sessionFactory.openSession();
+				session = getSession(true);
 				session.beginTransaction();
 				id = (Integer) session.save(requestDto);
 				session.getTransaction().commit();
@@ -141,9 +145,10 @@ public class UserProfileDaoImpl implements UserProfileDao {
 		} catch (Exception ee) {
 			ee.printStackTrace();
 		} finally {
-			if (null != session) {
-				session.close();
-			}
+			/*
+			 * if (null != session) { session.close(); }
+			 */
+			closeSession(session);
 		}
 		return flag;
 	}
@@ -153,16 +158,18 @@ public class UserProfileDaoImpl implements UserProfileDao {
 		Session session = null;
 		List<ContactMeDto> contactMeDtoList = null;
 		try {
-			session = sessionFactory.openSession();
+			// session = sessionFactory.openSession();
+			session = getSession(false);
 			String contactInfo_query = "from ContactMeDto";
 			Query query = session.createQuery(contactInfo_query);
 			contactMeDtoList = query.list();
 		} catch (Exception ee) {
 			ee.printStackTrace();
 		} finally {
-			if (null != session) {
-				session.close();
-			}
+			/*
+			 * if (null != session) { session.close(); }
+			 */
+			closeSession(session);
 		}
 		return contactMeDtoList;
 	}
@@ -172,16 +179,18 @@ public class UserProfileDaoImpl implements UserProfileDao {
 		Session session = null;
 		List<PortalAdminDto> aboutMeList = null;
 		try {
-			session = sessionFactory.openSession();
+			// session = sessionFactory.openSession();
+			session = getSession(false);
 			String aboutme_query = "from PortalAdminDto";
 			Query query = session.createQuery(aboutme_query);
 			aboutMeList = query.list();
 		} catch (Exception ee) {
 			ee.printStackTrace();
 		} finally {
-			if (null != session) {
-				session.close();
-			}
+			/*
+			 * if (null != session) { session.close(); }
+			 */
+			closeSession(session);
 		}
 		return aboutMeList;
 	}
@@ -191,18 +200,21 @@ public class UserProfileDaoImpl implements UserProfileDao {
 		Session session = null;
 		int i = 0;
 		try {
-			session = sessionFactory.openSession();
+			// session = sessionFactory.openSession();
+			session = getSession(true);
 			String forgot_password_query = "update UserAccessDto set password = ? where phoneNum = ?";
 			Query query = session.createQuery(forgot_password_query);
 			query.setParameter(0, portalRequest.getPassword());
 			query.setParameter(1, portalRequest.getPortalId());
 			i = query.executeUpdate();
+			session.beginTransaction().commit();
 		} catch (Exception ee) {
 			ee.printStackTrace();
 		} finally {
-			if (null != session) {
-				session.close();
-			}
+			/*
+			 * if (null != session) { session.close(); }
+			 */
+			closeSession(session);
 		}
 		return i;
 	}
